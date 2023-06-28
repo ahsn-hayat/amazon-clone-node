@@ -12,6 +12,10 @@ const auth = async (req, res, next) => {
         .status(401)
         .json({ msg: "Token verification failed, authorization denied!" });
 
+    const user = await User.findById(verified.id);
+
+    if (!user) return res.status(401).json({ msg: "User not found" });
+
     if (user.type != "user")
       return res
         .status(401)
